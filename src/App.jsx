@@ -1,15 +1,16 @@
-import { Header } from "./Header";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Content } from "./Content";
-import { Footer } from "./Footer";
 import { Login } from "./Login";
 
 function App() {
   return (
     <div>
-      <Header />
-      <Content />
-      <Login />
-      <Footer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Content />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
