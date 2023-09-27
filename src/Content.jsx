@@ -4,20 +4,23 @@ import { StudentShow } from "./StudentShow";
 
 export function Content() {
   const [studentInfo, setStudentInfo] = useState({});
+  const [isHide, setIsHide] = useState(true);
 
   const handleStudentShow = () => {
-    axios.get(`http://localhost:3000/students/${current_user.id}.json`).then((response) => {
+    axios.get(`http://localhost:3000/students/1.json`).then((response) => {
       console.log(response.data);
       setStudentInfo(response.data);
     });
   };
+
+  setTimeout(() => setIsHide(false), 1000);
 
   useEffect(handleStudentShow, []);
 
   return (
     <div>
       <h1>Student Portal</h1>
-      <StudentShow studentInfo={studentInfo} />
+      {!isHide ? <StudentShow studentInfo={studentInfo} /> : null}
     </div>
   );
 }
