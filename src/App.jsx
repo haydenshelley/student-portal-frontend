@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Content } from "./Content";
 import { Login } from "./Login";
-import { EducationEdit } from "./EducationEdit";
+// import { EducationEdit } from "./EducationEdit";
 
 function App() {
   return (
