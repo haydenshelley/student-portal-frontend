@@ -21,6 +21,7 @@ export function StudentShow(props) {
           <p>Start Date: {education.start_date}</p>
           <p>End Date: {education.end_date}</p>
           <p>Details: {education.details}</p>
+          <button onClick={() => props.onShowEducation(education)}>Edit</button>
           <hr />
         </div>
       ))}
@@ -39,6 +40,7 @@ export function StudentShow(props) {
       {props.studentInfo.skills.map((skill) => (
         <div key={skill.id}>
           <p>{skill.skill_name}</p>
+          <button onClick={() => props.onShowSkill(skill)}>Edit</button>
           <hr />
         </div>
       ))}

@@ -7,16 +7,23 @@ import { ExperienceNew } from "./ExperienceNew";
 import { SkillsNew } from "./SkillsNew";
 import { CapstonesNew } from "./CapstonesNew"; 
 import { EducationsNew } from "./EducationsNew"; 
+import { EducationEdit } from "./EducationEdit";
+import { SkillEdit } from "./SkillEdit";
 
 export function Content() {
   const [studentInfo, setStudentInfo] = useState({});
   const [isHide, setIsHide] = useState(true);
   const [isEducationShowVisible, setisEducationShowVisible] = useState(false);
   const [currentEducation, setCurrentEducation] = useState({});
+
   const [experiences, setExperiences] = useState([]);
   const [skills, setSkills] = useState([]);
   const [capstones, setCapstones] = useState([]); 
   const [educations, setEducations] = useState([]); 
+
+
+  const [isSkillShowVisible, setisSkillShowVisible] = useState(false);
+  const [currentSkill, setCurrentSkill] = useState({});
 
 
   const handleStudentShow = () => {
@@ -30,7 +37,26 @@ export function Content() {
 
   const handleShowEducation = (education) => {
     setisEducationShowVisible(true);
-    setCurrentEducation(response.data.educations);
+    setCurrentEducation(education);
+    console.log(education);
+  };
+
+  const handleUpdateEducation = (id, params) => {
+    console.log("handleUpdateEducation", params);
+    axios.patch(`http://localhost:3000/educations/${id}.json`, params);
+    window.location.reload();
+  };
+
+  const handleShowSkill = (skill) => {
+    setisSkillShowVisible(true);
+    setCurrentSkill(skill);
+    console.log(skill);
+  };
+
+  const handleUpdateSkill = (id, params) => {
+    console.log("handleUpdateSkill", params);
+    axios.patch(`http://localhost:3000/skills/${id}.json`, params);
+    window.location.reload();
   };
 
   const handleClose = () => {
@@ -73,9 +99,21 @@ export function Content() {
     <div>
       <LogoutLink />
       <h1>Student Portal</h1>
-      {!isHide ? <StudentShow studentInfo={studentInfo} /> : null}
+      {!isHide ? (
+        <StudentShow
+          studentInfo={studentInfo}
+          onShowEducation={handleShowEducation}
+          onShowSkill={handleShowSkill}
+        />
+      ) : null}
       <Modal show={isEducationShowVisible} onClose={handleClose}>
-        <h1>Test</h1>
+        <EducationEdit
+          education={currentEducation}
+          onUpdateEducation={handleUpdateEducation}
+        />
+      </Modal>
+      <Modal show={isSkillShowVisible} onClose={handleClose}>
+        <SkillEdit skill={currentSkill} onUpdateSkill={handleUpdateSkill} />
       </Modal>
       < ExperienceNew onCreateExperience ={handleCreateExperience}/> 
       < SkillsNew onCreateSkill ={handleCreateSkill}/>
