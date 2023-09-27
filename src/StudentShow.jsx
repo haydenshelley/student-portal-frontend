@@ -33,6 +33,7 @@ export function StudentShow(props) {
           <p>Start Date: {experience.start_date}</p>
           <p>End Date: {experience.end_date}</p>
           <p>Details: {experience.details}</p>
+          <button onClick={() => props.onShowExperience(experience)}>Edit</button>
           <hr />
         </div>
       ))}

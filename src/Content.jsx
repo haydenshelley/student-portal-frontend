@@ -4,12 +4,15 @@ import { useState, useEffect } from "react";
 import { StudentShow } from "./StudentShow";
 import { Modal } from "./Modal";
 import { EducationEdit } from "./EducationEdit";
+import {ExperienceEdit} from "./ExperienceEdit"
 
 export function Content() {
   const [studentInfo, setStudentInfo] = useState({});
   const [isHide, setIsHide] = useState(true);
   const [isEducationShowVisible, setisEducationShowVisible] = useState(false);
   const [currentEducation, setCurrentEducation] = useState({});
+  const [isExperienceShowVisible, setisExperienceShowVisible] = useState(false);
+  const [currentExperience, setCurrentExperience] = useState({});
 
   const handleStudentShow = () => {
     axios
@@ -32,6 +35,18 @@ export function Content() {
     window.location.reload();
   };
 
+  const handleShowExperience = (experience) => {
+    setisExperienceShowVisible(true);
+    setCurrentExperience(experience);
+    console.log(experience);
+  };
+
+  const handleUpdateExperience = (id, params) => {
+    console.log("handleUpdateExperience", params);
+    axios.patch(`http://localhost:3000/experiences/${id}.json`, params);
+    window.location.reload();
+  };
+
   const handleClose = () => {
     setisEducationShowVisible(false);
   };
@@ -48,6 +63,7 @@ export function Content() {
         <StudentShow
           studentInfo={studentInfo}
           onShowEducation={handleShowEducation}
+          onShowExperience={handleShowExperience}
         />
       ) : null}
       <Modal show={isEducationShowVisible} onClose={handleClose}>
@@ -55,6 +71,9 @@ export function Content() {
           education={currentEducation}
           onUpdateEducation={handleUpdateEducation}
         />
+      </Modal>
+      <Modal  show={isExperienceShowVisible} onClose={handleClose}>
+      <ExperienceEdit experience={currentExperience} onUpdateExperience={handleUpdateExperience}/>
       </Modal>
     </div>
   );
