@@ -51,6 +51,8 @@ export function StudentShow(props) {
           <p>{capstone.description}</p>
           <a href={capstone.url}>Repo</a>
           <img src={capstone.screenshot} />
+          <br />
+          <button onClick={() => props.onShowCapstone(capstone)}>Edit</button>
           <hr />
         </div>
       ))}
