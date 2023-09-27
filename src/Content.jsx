@@ -3,6 +3,10 @@ import { LogoutLink } from "./LogoutLink";
 import { useState, useEffect } from "react";
 import { StudentShow } from "./StudentShow";
 import { Modal } from "./Modal";
+import { ExperienceNew } from "./ExperienceNew";
+import { SkillsNew } from "./SkillsNew";
+import { CapstonesNew } from "./CapstonesNew"; 
+import { EducationsNew } from "./EducationsNew"; 
 import { EducationEdit } from "./EducationEdit";
 import {ExperienceEdit} from "./ExperienceEdit"
 import { SkillEdit } from "./SkillEdit";
@@ -14,8 +18,16 @@ export function Content() {
   const [currentEducation, setCurrentEducation] = useState({});
   const [isExperienceShowVisible, setisExperienceShowVisible] = useState(false);
   const [currentExperience, setCurrentExperience] = useState({});
+
+  const [experiences, setExperiences] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [capstones, setCapstones] = useState([]); 
+  const [educations, setEducations] = useState([]); 
+
+
   const [isSkillShowVisible, setisSkillShowVisible] = useState(false);
   const [currentSkill, setCurrentSkill] = useState({});
+
 
   const handleStudentShow = () => {
     axios
@@ -69,6 +81,34 @@ export function Content() {
 
   useEffect(handleStudentShow, []);
 
+  const handleCreateExperience = (params, successCallback) => { 
+    axios.post("http://localhost:3000/experiences.json", params).then((response) => {
+      setExperiences([...experiences, response.data]); 
+      window.location.reload()
+    });
+  };
+
+   const handleCreateSkill = (params, successCallback) => { 
+    axios.post("http://localhost:3000/skills.json", params).then((response) => {
+      setSkills([...skills, response.data]); 
+      window.location.reload()
+    });
+  };
+
+  const handleCreateCapstone = (params, successCallback) => { 
+    axios.post("http://localhost:3000/capstones.json", params).then((response) => {
+      setCapstones([...capstones, response.data]); 
+      window.location.reload()
+    });
+  };
+
+  const handleCreateEducation= (params, successCallback) => { 
+    axios.post("http://localhost:3000/educations.json", params).then((response) => {
+      setEducations([...educations, response.data]); 
+      window.location.reload()
+    });
+  };
+
   return (
     <div>
       <LogoutLink />
@@ -93,6 +133,10 @@ export function Content() {
       <Modal show={isSkillShowVisible} onClose={handleClose}>
         <SkillEdit skill={currentSkill} onUpdateSkill={handleUpdateSkill} />
       </Modal>
+      < ExperienceNew onCreateExperience ={handleCreateExperience}/> 
+      < SkillsNew onCreateSkill ={handleCreateSkill}/>
+      < CapstonesNew onCreateCapstone = {handleCreateCapstone} />
+      < EducationsNew onCreateEducation = {handleCreateEducation} /> 
     </div>
   );
 }
