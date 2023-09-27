@@ -40,6 +40,7 @@ export function StudentShow(props) {
       {props.studentInfo.skills.map((skill) => (
         <div key={skill.id}>
           <p>{skill.skill_name}</p>
+          <button onClick={() => props.onShowSkill(skill)}>Edit</button>
           <hr />
         </div>
       ))}
