@@ -3,6 +3,7 @@ import { LogoutLink } from "./LogoutLink";
 import { useState, useEffect } from "react";
 import { StudentShow } from "./StudentShow";
 import { Modal } from "./Modal";
+import { EducationEdit } from "./EducationEdit";
 
 export function Content() {
   const [studentInfo, setStudentInfo] = useState({});
@@ -21,7 +22,8 @@ export function Content() {
 
   const handleShowEducation = (education) => {
     setisEducationShowVisible(true);
-    setCurrentEducation(response.data.educations);
+    setCurrentEducation(education);
+    console.log(education);
   };
 
   const handleClose = () => {
@@ -36,9 +38,14 @@ export function Content() {
     <div>
       <LogoutLink />
       <h1>Student Portal</h1>
-      {!isHide ? <StudentShow studentInfo={studentInfo} /> : null}
+      {!isHide ? (
+        <StudentShow
+          studentInfo={studentInfo}
+          onShowEducation={handleShowEducation}
+        />
+      ) : null}
       <Modal show={isEducationShowVisible} onClose={handleClose}>
-        <h1>Test</h1>
+        <EducationEdit education={currentEducation} />
       </Modal>
     </div>
   );
