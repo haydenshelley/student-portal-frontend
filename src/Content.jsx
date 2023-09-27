@@ -8,6 +8,7 @@ import { SkillsNew } from "./SkillsNew";
 import { CapstonesNew } from "./CapstonesNew"; 
 import { EducationsNew } from "./EducationsNew"; 
 import { EducationEdit } from "./EducationEdit";
+import {ExperienceEdit} from "./ExperienceEdit"
 import { SkillEdit } from "./SkillEdit";
 
 export function Content() {
@@ -15,6 +16,8 @@ export function Content() {
   const [isHide, setIsHide] = useState(true);
   const [isEducationShowVisible, setisEducationShowVisible] = useState(false);
   const [currentEducation, setCurrentEducation] = useState({});
+  const [isExperienceShowVisible, setisExperienceShowVisible] = useState(false);
+  const [currentExperience, setCurrentExperience] = useState({});
 
   const [experiences, setExperiences] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -47,6 +50,17 @@ export function Content() {
     window.location.reload();
   };
 
+  const handleShowExperience = (experience) => {
+    setisExperienceShowVisible(true);
+    setCurrentExperience(experience);
+    console.log(experience);
+  };
+
+  const handleUpdateExperience = (id, params) => {
+    console.log("handleUpdateExperience", params);
+    axios.patch(`http://localhost:3000/experiences/${id}.json`, params);
+    window.location.reload();
+  }
   const handleShowSkill = (skill) => {
     setisSkillShowVisible(true);
     setCurrentSkill(skill);
@@ -103,6 +117,7 @@ export function Content() {
         <StudentShow
           studentInfo={studentInfo}
           onShowEducation={handleShowEducation}
+          onShowExperience={handleShowExperience}
           onShowSkill={handleShowSkill}
         />
       ) : null}
@@ -111,6 +126,9 @@ export function Content() {
           education={currentEducation}
           onUpdateEducation={handleUpdateEducation}
         />
+      </Modal>
+      <Modal  show={isExperienceShowVisible} onClose={handleClose}>
+      <ExperienceEdit experience={currentExperience} onUpdateExperience={handleUpdateExperience}/>
       </Modal>
       <Modal show={isSkillShowVisible} onClose={handleClose}>
         <SkillEdit skill={currentSkill} onUpdateSkill={handleUpdateSkill} />
