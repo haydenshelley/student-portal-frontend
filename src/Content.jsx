@@ -26,6 +26,12 @@ export function Content() {
     console.log(education);
   };
 
+  const handleUpdateEducation = (id, params) => {
+    console.log("handleUpdateEducation", params);
+    axios.patch(`http://localhost:3000/educations/${id}.json`, params);
+    window.location.reload();
+  };
+
   const handleClose = () => {
     setisEducationShowVisible(false);
   };
@@ -45,7 +51,10 @@ export function Content() {
         />
       ) : null}
       <Modal show={isEducationShowVisible} onClose={handleClose}>
-        <EducationEdit education={currentEducation} />
+        <EducationEdit
+          education={currentEducation}
+          onUpdateEducation={handleUpdateEducation}
+        />
       </Modal>
     </div>
   );

@@ -1,7 +1,15 @@
 export function EducationEdit(props) {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const params = new FormData(event.target);
+    props.onUpdateEducation(props.education.id, params, () =>
+      event.target.reset()
+    );
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           University:
           <input
