@@ -5,6 +5,7 @@ import { StudentShow } from "./StudentShow";
 import { Modal } from "./Modal";
 import { EducationEdit } from "./EducationEdit";
 import { SkillEdit } from "./SkillEdit";
+import { CapstoneEdit } from "./CapstoneEdit";
 
 export function Content() {
   const [studentInfo, setStudentInfo] = useState({});
@@ -13,6 +14,8 @@ export function Content() {
   const [currentEducation, setCurrentEducation] = useState({});
   const [isSkillShowVisible, setisSkillShowVisible] = useState(false);
   const [currentSkill, setCurrentSkill] = useState({});
+  const [isCapstoneShowVisible, setisCapstoneShowVisible] = useState(false);
+  const [currentCapstone, setCurrentCapstone] = useState({});
 
   const handleStudentShow = () => {
     axios
@@ -47,8 +50,22 @@ export function Content() {
     window.location.reload();
   };
 
+  const handleShowCapstone = (capstone) => {
+    setisCapstoneShowVisible(true);
+    setCurrentCapstone(capstone);
+    console.log(capstone);
+  };
+
+  const handleUpdateCapstone = (id, params) => {
+    console.log("handleUpdateCapsone", params);
+    axios.patch(`http://localhost:3000/capstones/${id}.json`, params);
+    window.location.reload();
+  };
+
   const handleClose = () => {
     setisEducationShowVisible(false);
+    setisSkillShowVisible(false);
+    setisCapstoneShowVisible(false);
   };
 
   setTimeout(() => setIsHide(false), 1000);
@@ -64,6 +81,7 @@ export function Content() {
           studentInfo={studentInfo}
           onShowEducation={handleShowEducation}
           onShowSkill={handleShowSkill}
+          onShowCapstone={handleShowCapstone}
         />
       ) : null}
       <Modal show={isEducationShowVisible} onClose={handleClose}>
@@ -74,6 +92,12 @@ export function Content() {
       </Modal>
       <Modal show={isSkillShowVisible} onClose={handleClose}>
         <SkillEdit skill={currentSkill} onUpdateSkill={handleUpdateSkill} />
+      </Modal>
+      <Modal show={isCapstoneShowVisible} onClose={handleClose}>
+        <CapstoneEdit
+          capstone={currentCapstone}
+          onUpdateCapstone={handleUpdateCapstone}
+        />
       </Modal>
     </div>
   );
